@@ -4,7 +4,7 @@ public class Book {
 
 	// class fields
 	int bookId;
-	String name;
+	String title;
 	String author;
 	BookType bookType;
 	Integer yearPublished;
@@ -16,9 +16,9 @@ public class Book {
 	
 	
 	// constructor
-	public Book(int bookId, String name, String author, BookType type, Integer yearPublished, int periodId, BookStatus status, Integer rating, String notes) {
+	public Book(int bookId, String title, String author, BookType type, Integer yearPublished, int periodId, BookStatus status, Integer rating, String notes) {
 		this.bookId        = bookId;
-		this.name          = name;
+		this.title         = title;
 		this.author        = author;
 		this.bookType      = type;
 		this.yearPublished = yearPublished;
@@ -41,8 +41,8 @@ public class Book {
 
 
 
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
 
@@ -93,10 +93,14 @@ public class Book {
 	public void setBookId(int bookId) {
 		this.bookId = bookId;
 	}
+	
+	public void setPeriodId(int periodId) {
+		this.periodId = periodId;
+	}
 
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 
@@ -133,7 +137,7 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [bookId=" + bookId + ", name=" + name + ", author=" + author + ", bookType=" + bookType
+		return "Book [bookId=" + bookId + ", name=" + title + ", author=" + author + ", bookType=" + bookType
 				+ ", yearPublished=" + yearPublished + ", periodId=" + periodId + ", status=" + status + ", rating="
 				+ rating + ", notes=" + notes + "]";
 	}
