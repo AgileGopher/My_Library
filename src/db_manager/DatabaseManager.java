@@ -2,6 +2,7 @@ package db_manager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -124,19 +125,104 @@ public class DatabaseManager {
 	}
 
 	
-	// retrieve a Book
+	public Book retrieveBook(int id) throws SQLException {
+		
+		Book retrievedBook   = new Book();
+		PreparedStatement ps = null;
+		ResultSet rs         = null;
+		
+		try {
+			connection = connectDB();
+			ps = connection.prepareStatement("SELECT * FROM BOOK WHERE book_id = ?");
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				retrievedBook.setBookId(id);
+				retrievedBook.setTitle(rs.getString("title")); 
+				retrievedBook.setAuthor(rs.getString("author")); 
+				String typeFromDatabase = rs.getString("book_type");
+				BookType bookType = BookType.valueOf(typeFromDatabase);
+				retrievedBook.setBookType(bookType);
+				retrievedBook.setYearPublished(rs.getInt("publication_year"));
+				retrievedBook.setPeriodId(rs.getInt("period_id"));
+				String statusFromDatabase = rs.getString("status");
+				BookStatus status = BookStatus.valueOf(statusFromDatabase);
+				retrievedBook.setStatus(status);
+				retrievedBook.setRating(rs.getInt("rating"));
+				retrievedBook.setNotes(rs.getString("notes")); 
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			if(rs != null) {
+				rs.close();
+			}
+			if(ps != null) {
+				ps.close();
+			}
+			if(connection != null) {
+				connection.close();
+			}
+		}
+		return retrievedBook;
+	}
 	
-	// retrieve an historical_period 
 	
-	// create new Book
 	
-	// create new historical_record 
+	public HistoricalPeriod retrieveHistoricalPeriod(int id)  throws SQLException {
+		
+		HistoricalPeriod retrievedHistoricalPeriod = new HistoricalPeriod();
+		PreparedStatement ps = null;
+		ResultSet rs         = null;
+		
+		try {
+			connection = connectDB();
+			ps = connection.prepareStatement("SELECT * FROM historical_period WHERE period_id = ?");
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				retrievedHistoricalPeriod.setPeriodID(id);
+				retrievedHistoricalPeriod.setName(rs.getString("name"));
+				retrievedHistoricalPeriod.setStart_year(rs.getInt("start_year"));
+				retrievedHistoricalPeriod.setEnd_year(rs.getInt("end_year"));
+				retrievedHistoricalPeriod.setDescription(rs.getString("description"));
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			if(rs != null) {
+				rs.close();
+			}
+			if(ps != null) {
+				ps.close();
+			}
+			if(connection != null) {
+				connection.close();
+			}
+		}
+		return retrievedHistoricalPeriod;
+	}
 	
-	// update Book details
 	
-	// update historical record details
+	// retrieve a Book == DONE
 	
-	// delete Book
+	// retrieve an historical_period ==
 	
-	// delete historical record
+	// create new Book ==
+	
+	// create new historical_record ==
+	
+	// update Book details ==
+	
+	// update historical record details ==
+	
+	// delete Book ==
+	
+	// delete historical record ==
 }

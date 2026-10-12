@@ -1,5 +1,7 @@
 package driver;
 
+import java.sql.SQLException;
+
 import db_manager.DatabaseManager;
 
 public class Driver {
@@ -8,14 +10,19 @@ public class Driver {
 	
 	
 	public Driver() {
-		dbManager = new DatabaseManager();
 	}
 	
 	
 	public static void main(String[] args) {
-		Driver driver = new Driver();
-		
+		dbManager = new DatabaseManager();
 		dbManager.retrieveData();
-		System.out.println("yo");
+		System.out.println("operation successful..");
+		try {
+			// System.out.println(dbManager.retrieveBook(46));
+			System.out.println(dbManager.retrieveHistoricalPeriod(4));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
