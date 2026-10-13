@@ -17,12 +17,6 @@ public class Driver {
 		dbManager = new DatabaseManager();
 		dbManager.retrieveData();
 		System.out.println("operation successful..");
-		try {
-			// System.out.println(dbManager.retrieveBook(46));
-			// System.out.println(dbManager.retrieveHistoricalPeriod(4));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		dbManager.createNewBook();
 	}
 }

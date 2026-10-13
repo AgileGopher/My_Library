@@ -13,20 +13,23 @@ import data_classes.Book;
 import data_classes.BookStatus;
 import data_classes.BookType;
 import data_classes.HistoricalPeriod;
+import io_classes.Librarian;
 
 public class DatabaseManager {
 	
 	// fields
 	private static List<HistoricalPeriod> historical_periods;
 	private static List<Book> bookCollection;
+	private static Librarian librarian;
 	Connection connection;
-	
+
 	
 	
 	// constructor
 	public DatabaseManager() {
 		historical_periods = new ArrayList<>();
 		bookCollection     = new ArrayList<>();
+		librarian          = new Librarian();
 	}
 
 
@@ -210,9 +213,32 @@ public class DatabaseManager {
 	}
 	
 	
+	
+	public void createNewBook() {
+		Book newBook = librarian.getNewBookDataFromUser();
+		try {
+			connection = connectDB();
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO book (title, author, book_type, publication_year, period_id, status, rating, notes) VALUES(?,?,?,?,?,?,?,?)");
+			ps.setString(1, newBook.getTitle()); // need to capitalize somehow
+			ps.setString(2, newBook.getAuthor());
+			ps.setString(3, String.valueOf(newBook.getBookType()).toUpperCase());
+			ps.setInt(4, newBook.getYearPublished());
+			ps.setInt(5, newBook.getPeriodId());
+			ps.setString(6, String.valueOf(newBook.getStatus()).toUpperCase());
+			ps.setInt(7, newBook.getRating());
+			ps.setString(8, newBook.getNotes());
+			ps.execute();
+			ps.close();
+			connection.close();
+			System.out.println("Book: " + newBook.getTitle() + " added successfully..");
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	// retrieve a Book == DONE
 	
-	// retrieve an historical_period ==
+	// retrieve an historical_period == DONE
 	
 	// create new Book ==
 	

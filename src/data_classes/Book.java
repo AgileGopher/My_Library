@@ -24,6 +24,7 @@ public class Book {
 		this.yearPublished = yearPublished;
 		this.periodId      = periodId;
 		this.status        = status;
+		this.rating        = rating;
 		this.notes         = notes;
 	}
 	
