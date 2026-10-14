@@ -3,12 +3,12 @@ package io_classes;
 import data_classes.Book;
 import data_classes.BookStatus;
 import data_classes.BookType;
+import data_classes.HistoricalPeriod;
 
 public class Librarian {
 	
 	private Keyboard kb;
 
-	
 	
 	public Librarian() {
 		kb = new Keyboard();
@@ -29,5 +29,9 @@ public class Librarian {
 		return book;
 	}
 	
+	
+	public HistoricalPeriod getNewHistoricalPeriodDataFromUser() {
+		HistoricalPeriod newHistoricalPeriod = new HistoricalPeriod();
+	}
 	
 }

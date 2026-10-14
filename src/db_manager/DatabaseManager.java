@@ -236,13 +236,19 @@ public class DatabaseManager {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	public void createNewHistoricalPeriod() {
+		
+	}
 	// retrieve a Book == DONE
 	
 	// retrieve an historical_period == DONE
 	
-	// create new Book ==
+	// create new Book == DONE
 	
-	// create new historical_record ==
+	// create new historical_record == 
 	
 	// update Book details ==
 	
