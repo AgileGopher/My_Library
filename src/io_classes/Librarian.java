@@ -32,6 +32,11 @@ public class Librarian {
 	
 	public HistoricalPeriod getNewHistoricalPeriodDataFromUser() {
 		HistoricalPeriod newHistoricalPeriod = new HistoricalPeriod();
+		newHistoricalPeriod.setName(kb.readString("enter name: ", "invalid name, please try again"));
+		newHistoricalPeriod.setStart_year(kb.readInteger("enter start year: ", "invalid start year, please try again"));
+		newHistoricalPeriod.setEnd_year(kb.readInteger("enter end year: ", "invalid end year, please try again"));
+		newHistoricalPeriod.setDescription(kb.readString("enter description: ", "invalid description, please try again"));
+		return newHistoricalPeriod;
 	}
 	
 }
