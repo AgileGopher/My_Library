@@ -213,7 +213,7 @@ public class DatabaseManager {
 	}
 	
 	
-	
+	// this method calls librarian to grab new book details from user and creates new book from it
 	public void createNewBook() {
 		Book newBook = librarian.getNewBookDataFromUser();
 		try {
@@ -240,6 +240,27 @@ public class DatabaseManager {
 	
 	
 	public void createNewHistoricalPeriod() {
+		HistoricalPeriod newPeriod = librarian.getNewHistoricalPeriodDataFromUser();
+		try {
+			connection = connectDB();
+			PreparedStatement ps = connection.prepareStatement("INSERT INTO historical_period (name, start_year, end_year, description) VALUES(?, ?, ?, ?)");
+			ps.setString(1, newPeriod.getName());
+			ps.setInt(2, newPeriod.getStart_year());
+			ps.setInt(3, newPeriod.getEnd_year());
+			ps.setString(4, newPeriod.getDescription());
+			ps.execute();
+			ps.close();
+			connection.close();
+			System.out.println("Historical Period: " + newPeriod.getName() + " added successfully..");
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	public void updateBook() {
 		
 	}
 	// retrieve a Book == DONE
@@ -248,7 +269,7 @@ public class DatabaseManager {
 	
 	// create new Book == DONE
 	
-	// create new historical_record == 
+	// create new historical_record == DONE
 	
 	// update Book details ==
 	

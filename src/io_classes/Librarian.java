@@ -5,6 +5,10 @@ import data_classes.BookStatus;
 import data_classes.BookType;
 import data_classes.HistoricalPeriod;
 
+/*
+ * this class is responible for being the mediator between the user and the database. this class takes in
+ * all external data and hands it off the the database manager to be processed for database CRUD operations.
+ */
 public class Librarian {
 	
 	private Keyboard kb;
@@ -30,13 +34,15 @@ public class Librarian {
 	}
 	
 	
+	
+	// method to take in new historical_period data from user
 	public HistoricalPeriod getNewHistoricalPeriodDataFromUser() {
-		HistoricalPeriod newHistoricalPeriod = new HistoricalPeriod();
-		newHistoricalPeriod.setName(kb.readString("enter name: ", "invalid name, please try again"));
-		newHistoricalPeriod.setStart_year(kb.readInteger("enter start year: ", "invalid start year, please try again"));
-		newHistoricalPeriod.setEnd_year(kb.readInteger("enter end year: ", "invalid end year, please try again"));
-		newHistoricalPeriod.setDescription(kb.readString("enter description: ", "invalid description, please try again"));
-		return newHistoricalPeriod;
+		HistoricalPeriod hp = new HistoricalPeriod();
+		hp.setName(kb.readString("enter name: ", "invalid name, please try again"));
+		hp.setStart_year(kb.readInteger("enter start year: ", "invalid start year, please try again"));
+		hp.setEnd_year(kb.readInteger("enter end year: ", "invalid end year, please try again"));
+		hp.setDescription(kb.readString("enter description: ", "invalid description, please try again"));
+		return hp;
 	}
 	
 }

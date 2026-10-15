@@ -1,7 +1,5 @@
 package driver;
 
-import java.sql.SQLException;
-
 import db_manager.DatabaseManager;
 
 public class Driver {
@@ -17,6 +15,6 @@ public class Driver {
 		dbManager = new DatabaseManager();
 		dbManager.retrieveData();
 		System.out.println("operation successful..");
-		dbManager.createNewBook();
+		dbManager.createNewHistoricalPeriod();
 	}
 }
