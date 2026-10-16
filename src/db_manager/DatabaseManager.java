@@ -136,6 +136,7 @@ public class DatabaseManager {
 		
 		try {
 			connection = connectDB();
+			
 			ps = connection.prepareStatement("SELECT * FROM BOOK WHERE book_id = ?");
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
@@ -183,6 +184,7 @@ public class DatabaseManager {
 		
 		try {
 			connection = connectDB();
+			
 			ps = connection.prepareStatement("SELECT * FROM historical_period WHERE period_id = ?");
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
@@ -218,6 +220,7 @@ public class DatabaseManager {
 		Book newBook = librarian.getNewBookDataFromUser();
 		try {
 			connection = connectDB();
+			
 			PreparedStatement ps = connection.prepareStatement("INSERT INTO book (title, author, book_type, publication_year, period_id, status, rating, notes) VALUES(?,?,?,?,?,?,?,?)");
 			ps.setString(1, newBook.getTitle()); // need to capitalize somehow
 			ps.setString(2, newBook.getAuthor());
@@ -230,6 +233,7 @@ public class DatabaseManager {
 			ps.execute();
 			ps.close();
 			connection.close();
+			
 			System.out.println("Book: " + newBook.getTitle() + " added successfully..");
 		}
 		catch(SQLException e) {
@@ -243,6 +247,7 @@ public class DatabaseManager {
 		HistoricalPeriod newPeriod = librarian.getNewHistoricalPeriodDataFromUser();
 		try {
 			connection = connectDB();
+			
 			PreparedStatement ps = connection.prepareStatement("INSERT INTO historical_period (name, start_year, end_year, description) VALUES(?, ?, ?, ?)");
 			ps.setString(1, newPeriod.getName());
 			ps.setInt(2, newPeriod.getStart_year());
@@ -251,6 +256,7 @@ public class DatabaseManager {
 			ps.execute();
 			ps.close();
 			connection.close();
+			
 			System.out.println("Historical Period: " + newPeriod.getName() + " added successfully..");
 		}
 		catch(SQLException e) {
@@ -260,22 +266,63 @@ public class DatabaseManager {
 	
 	
 	
-	public void updateBook() {
+	public void updateBook(int bookId) {
+		Book updatedBook = librarian.getNewBookDataFromUser();
+		try {
+			connection = connectDB();
+			
+			PreparedStatement ps = connection.prepareStatement(
+					"UPDATE book SET title = ?, author = ?, book_type = ?, "
+		          + "publication_year = ?, period_id = ?, status = ?, "
+		          + "rating = ?, notes = ? WHERE book_id = ?");
+			
+			ps.setString(1, updatedBook.getTitle());
+			ps.setString(2, updatedBook.getAuthor());
+			ps.setString(3, String.valueOf(updatedBook.getBookType()).toUpperCase());
+			ps.setInt(4, updatedBook.getYearPublished());
+			ps.setInt(5, updatedBook.getPeriodId());
+			ps.setString(6, String.valueOf(updatedBook.getStatus()).toUpperCase());
+			ps.setInt(7, updatedBook.getRating());
+			ps.setString(8, updatedBook.getNotes());
+			ps.setInt(9, bookId);
+			ps.executeUpdate();
+			ps.close();
+			connection.close();
+			
+			System.out.println("Book ID: " + bookId + " updated successfully in database.");
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void updateHistoricalPeriod(int periodId) {
 		
 	}
-	// retrieve a Book == DONE
 	
-	// retrieve an historical_period == DONE
 	
+	public void deleteBook(int bookId) {
+		
+	}
+	
+	
+	public void deleteHistoricalPeriod(int periodId) {
+		
+	}
 	// create new Book == DONE
 	
 	// create new historical_record == DONE
+	
+	// retrieve a Book == DONE
+	
+	// retrieve an historical_period == DONE
 	
 	// update Book details ==
 	
 	// update historical record details ==
 	
-	// delete Book ==
+	// delete Book == 
 	
 	// delete historical record ==
 }
