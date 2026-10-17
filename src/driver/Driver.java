@@ -16,6 +16,6 @@ public class Driver {
 		dbManager.retrieveData();
 		System.out.println("operation successful..");
 		// dbManager.createNewHistoricalPeriod();
-		dbManager.updateBook(39);
+		// dbManager.updateBook(39);
 	}
 }

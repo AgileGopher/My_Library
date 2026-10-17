@@ -216,29 +216,31 @@ public class DatabaseManager {
 	
 	
 	// this method calls librarian to grab new book details from user and creates new book from it
-	public void createNewBook() {
+	public void createNewBook() throws SQLException {
+		
 		Book newBook = librarian.getNewBookDataFromUser();
-		try {
-			connection = connectDB();
+		
+		String sql = "INSERT INTO book "
+				   + "(title, author, book_type, publication_year, "
+				   + "period_id, status, rating, notes)"
+				   + "VALUES(?,?,?,?,?,?,?,?)";
+		
+		try (Connection connection = connectDB();
+			 PreparedStatement ps = connection.prepareStatement(sql)) {
 			
-			PreparedStatement ps = connection.prepareStatement("INSERT INTO book (title, author, book_type, publication_year, period_id, status, rating, notes) VALUES(?,?,?,?,?,?,?,?)");
 			ps.setString(1, newBook.getTitle()); // need to capitalize somehow
 			ps.setString(2, newBook.getAuthor());
-			ps.setString(3, String.valueOf(newBook.getBookType()).toUpperCase());
+			ps.setString(3, newBook.getBookType().name());
 			ps.setInt(4, newBook.getYearPublished());
 			ps.setInt(5, newBook.getPeriodId());
-			ps.setString(6, String.valueOf(newBook.getStatus()).toUpperCase());
+			ps.setString(6, newBook.getStatus().name());
 			ps.setInt(7, newBook.getRating());
 			ps.setString(8, newBook.getNotes());
-			ps.execute();
-			ps.close();
-			connection.close();
+			
+			ps.executeUpdate();
 			
 			System.out.println("Book: " + newBook.getTitle() + " added successfully..");
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
+	   }
 	}
 	
 	
@@ -248,7 +250,10 @@ public class DatabaseManager {
 		try {
 			connection = connectDB();
 			
-			PreparedStatement ps = connection.prepareStatement("INSERT INTO historical_period (name, start_year, end_year, description) VALUES(?, ?, ?, ?)");
+			PreparedStatement ps = connection.prepareStatement(
+					"INSERT INTO historical_period (name, start_year, end_year, description) "
+				  + "VALUES(?, ?, ?, ?)");
+			
 			ps.setString(1, newPeriod.getName());
 			ps.setInt(2, newPeriod.getStart_year());
 			ps.setInt(3, newPeriod.getEnd_year());
@@ -272,9 +277,9 @@ public class DatabaseManager {
 			connection = connectDB();
 			
 			PreparedStatement ps = connection.prepareStatement(
-					"UPDATE book SET title = ?, author = ?, book_type = ?, "
-		          + "publication_year = ?, period_id = ?, status = ?, "
-		          + "rating = ?, notes = ? WHERE book_id = ?");
+					"UPDATE book "
+				  + "SET title = ?, author = ?, book_type = ?, publication_year = ?, period_id = ?, status = ?, rating = ?, notes = ? "
+				  + "WHERE book_id = ?");
 			
 			ps.setString(1, updatedBook.getTitle());
 			ps.setString(2, updatedBook.getAuthor());
@@ -298,7 +303,29 @@ public class DatabaseManager {
 	
 	
 	public void updateHistoricalPeriod(int periodId) {
-		
+		HistoricalPeriod updatedPeriod = librarian.getNewHistoricalPeriodDataFromUser();
+		try {
+			connection = connectDB();
+			
+			PreparedStatement ps = connection.prepareStatement(
+					"UPDATE historical_period "
+				  + "SET name = ?, start_year = ?, end_year = ?, description = ? "
+				  + "WHERE period_id = ?");
+			
+			ps.setString(1, updatedPeriod.getName());
+			ps.setInt(2, updatedPeriod.getStart_year());
+			ps.setInt(3, updatedPeriod.getEnd_year());
+			ps.setString(4, updatedPeriod.getDescription());
+			ps.setInt(5, periodId);
+			ps.executeUpdate();
+			ps.close();
+			connection.close();
+			
+			System.out.println("Period ID: " + periodId + " updated successfully in database.");
+		}	
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -310,19 +337,21 @@ public class DatabaseManager {
 	public void deleteHistoricalPeriod(int periodId) {
 		
 	}
-	// create new Book == DONE
 	
-	// create new historical_record == DONE
+	//TODO
+	// create new Book 					== DONE
 	
-	// retrieve a Book == DONE
+	// create new historical_record 	== DONE
 	
-	// retrieve an historical_period == DONE
+	// retrieve a Book				    == DONE
 	
-	// update Book details ==
+	// retrieve an historical_period	== DONE
 	
-	// update historical record details ==
+	// update Book details				== DONE
 	
-	// delete Book == 
+	// update historical record details == DONE
 	
-	// delete historical record ==
+	// delete Book                      == 
+	
+	// delete historical record         ==
 }
