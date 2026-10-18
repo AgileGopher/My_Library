@@ -63,16 +63,15 @@ public class DatabaseManager {
 	
 	
 	// method to connect to database, retrieve all data, and populate bookCollection and historical_periods lists
-	public void retrieveData() {
+	public void retrieveData() throws SQLException {
 		
-		try {
-			connection         = connectDB();
-			historical_periods = retrieveHistoricalPeriods(connection);
-			bookCollection     = retrieveBooks(connection);
-			connection.close();
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
+		try (Connection con = connectDB()){
+			
+			List<HistoricalPeriod> periods = retrieveHistoricalPeriods(con);
+			List<Book> books               = retrieveBooks(con);
+			
+			historical_periods = periods;
+			bookCollection     = books;
 		}
 	}
 	
@@ -82,23 +81,25 @@ public class DatabaseManager {
 	private static List<HistoricalPeriod> retrieveHistoricalPeriods(Connection con) throws SQLException {
 		
 		List<HistoricalPeriod> historical_periods = new ArrayList<>();
-		Statement stmt = con.createStatement();
-		ResultSet rs   = stmt.executeQuery("SELECT * FROM historical_period");
 		
-		while(rs.next()) {
-			
-			HistoricalPeriod hp = new HistoricalPeriod();
-			
-			hp.setPeriodID(rs.getInt("period_id"));
-			hp.setName(rs.getString("name"));
-			hp.setStart_year(rs.getInt("start_year"));
-			hp.setEnd_year(rs.getInt("end_year"));
-			hp.setDescription(rs.getString("description"));
-			
-			historical_periods.add(hp);
-		}
-		rs.close();
-		stmt.close();
+		String sql = "SELECT * FROM historical_period";
+		
+		try(Statement stmt = con.createStatement();
+		    ResultSet rs   = stmt.executeQuery(sql)){
+		
+			while(rs.next()) {
+				
+				HistoricalPeriod hp = new HistoricalPeriod();
+				
+				hp.setPeriodID(rs.getInt("period_id"));
+				hp.setName(rs.getString("name"));
+				hp.setStart_year(rs.getInt("start_year"));
+				hp.setEnd_year(rs.getInt("end_year"));
+				hp.setDescription(rs.getString("description"));
+				
+				historical_periods.add(hp);
+			}
+	    }
 		return historical_periods;
  	}
 	
@@ -107,33 +108,33 @@ public class DatabaseManager {
 	// method to retrieve book data from database
 	private static List<Book> retrieveBooks(Connection con) throws SQLException {
 		
-		List<Book> bookCollection = new ArrayList<>();
-		Statement stmt            = con.createStatement();
-		ResultSet rs              = stmt.executeQuery("SELECT * FROM Book");
+		List<Book> books = new ArrayList<>();
 		
-		while(rs.next()) {
-			
-			Book book = new Book();
-			
-			book.setBookId(rs.getInt("book_id"));
-			book.setTitle(rs.getString("title")); 
-			book.setAuthor(rs.getString("author")); 
-			String typeFromDatabase = rs.getString("book_type");
-			BookType bookType = BookType.valueOf(typeFromDatabase);
-			book.setBookType(bookType);
-			book.setYearPublished(rs.getInt("publication_year"));
-			book.setPeriodId(rs.getInt("period_id"));
-			String statusFromDatabase = rs.getString("status");
-			BookStatus status = BookStatus.valueOf(statusFromDatabase);
-			book.setStatus(status);
-			book.setRating(rs.getInt("rating"));
-			book.setNotes(rs.getString("notes")); 
-			
-			bookCollection.add(book);
+		String sql = "SELECT * FROM Book";
+		
+		try (Statement stmt = con.createStatement();
+		     ResultSet rs    = stmt.executeQuery(sql)){
+		
+			while(rs.next()) {
+				
+				Book book = new Book();
+				
+				book.setBookId(rs.getInt("book_id"));
+				book.setTitle(rs.getString("title")); 
+				book.setAuthor(rs.getString("author")); 
+				BookType bookType = BookType.valueOf(rs.getString("book_type"));
+				book.setBookType(bookType);
+				book.setYearPublished(rs.getInt("publication_year"));
+				book.setPeriodId(rs.getInt("period_id"));
+				BookStatus status = BookStatus.valueOf(rs.getString("status"));
+				book.setStatus(status);
+				book.setRating(rs.getInt("rating"));
+				book.setNotes(rs.getString("notes")); 
+				
+				books.add(book);
+			}
 		}
-		rs.close();
-		stmt.close();
-		return bookCollection;
+		return books;
 	}
 
 	
