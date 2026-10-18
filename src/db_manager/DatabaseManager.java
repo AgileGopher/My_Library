@@ -21,7 +21,6 @@ public class DatabaseManager {
 	private static List<HistoricalPeriod> historical_periods;
 	private static List<Book> bookCollection;
 	private static Librarian librarian;
-	Connection connection;
 
 	
 	
