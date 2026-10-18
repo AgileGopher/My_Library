@@ -302,30 +302,33 @@ public class DatabaseManager {
 	}
 	
 	
-	public void updateHistoricalPeriod(int periodId) {
+	public void updateHistoricalPeriod(int periodId) throws SQLException {
+		
 		HistoricalPeriod updatedPeriod = librarian.getNewHistoricalPeriodDataFromUser();
-		try {
-			connection = connectDB();
-			
-			PreparedStatement ps = connection.prepareStatement(
-					"UPDATE historical_period "
-				  + "SET name = ?, start_year = ?, end_year = ?, description = ? "
-				  + "WHERE period_id = ?");
+		
+		String sql = "UPDATE historical_period "
+				   + "SET name = ?, start_year = ?, end_year = ?, description = ? "
+				   + "WHERE period_id = ?";
+		
+		try (Connection connection = connectDB();
+			 PreparedStatement ps = connection.prepareStatement(sql)){
 			
 			ps.setString(1, updatedPeriod.getName());
 			ps.setInt(2, updatedPeriod.getStart_year());
 			ps.setInt(3, updatedPeriod.getEnd_year());
 			ps.setString(4, updatedPeriod.getDescription());
 			ps.setInt(5, periodId);
-			ps.executeUpdate();
-			ps.close();
-			connection.close();
 			
-			System.out.println("Period ID: " + periodId + " updated successfully in database.");
+			int rowsAffected = ps.executeUpdate();
+
+	        if (rowsAffected == 1) {
+	            System.out.println(
+	                "Book ID: " + periodId + " updated successfully.");
+	        } else {
+	            System.out.println(
+	                "No book found with ID: " + periodId);
+	        }
 		}	
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	
