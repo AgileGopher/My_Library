@@ -45,18 +45,13 @@ public class DatabaseManager {
 	
 	
 	// method to create a database connection
-	Connection connectDB() {
+	private Connection connectDB() throws SQLException {
 		
-		Connection con = null;
-		
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_library", "root", "Ronaldo");
-		}
-		catch(ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-		return con;
+		String url      = "jdbc:mysql://localhost:3306/db_library";
+		String username = "root";
+		String password = "Ronaldo";
+	
+		return DriverManager.getConnection(url, username, password);
 	}
 	
 	
@@ -215,7 +210,7 @@ public class DatabaseManager {
 		
 		String sql = "INSERT INTO book "
 				   + "(title, author, book_type, publication_year, "
-				   + "period_id, status, rating, notes)"
+				   + "period_id, status, rating, notes) "
 				   + "VALUES(?,?,?,?,?,?,?,?)";
 		
 		try (Connection connection = connectDB();
@@ -291,6 +286,7 @@ public class DatabaseManager {
 			
 			int rowsAffected = ps.executeUpdate();
 			
+			// this logic needs improving
 	        if (rowsAffected == 1) {
 	            System.out.println(
 	                "Book ID: " + bookId + " updated successfully.");
