@@ -222,6 +222,7 @@ public class DatabaseManager {
 	
 	
 	
+	// method to update historical_period in database
 	public void updateBook(int bookId, Book updatedBook) throws SQLException {
 		
 		String sql = "UPDATE book "
@@ -255,6 +256,8 @@ public class DatabaseManager {
 	}
 	
 	
+	
+	// method to update historical_period in database
 	public void updateHistoricalPeriod(int periodId, HistoricalPeriod updatedPeriod) throws SQLException {
 		
 		String sql = "UPDATE historical_period "
@@ -283,13 +286,51 @@ public class DatabaseManager {
 	}
 	
 	
-	public void deleteBook(int bookId) {
+	
+	// method to delete book from database
+	public void deleteBook(int bookId) throws SQLException {
 		
+		String sql = "DELETE FROM book WHERE book_id = ?";
+		
+		try(Connection connection = connectDB();
+				PreparedStatement ps = connection.prepareStatement(sql)){
+			
+			ps.setInt(1, bookId);
+			
+			int rowsAffected = ps.executeUpdate();
+			
+	        if (rowsAffected == 1) {
+	            System.out.println(
+	                "Book ID: " + bookId + " deleted successfully.");
+	        } else {
+	            System.out.println(
+	                "No Book found with ID: " + bookId);
+	        }
+		}
 	}
 	
 	
-	public void deleteHistoricalPeriod(int periodId) {
+	
+	// method to delete historical_period from database
+	public void deleteHistoricalPeriod(int periodId) throws SQLException {
 		
+		String sql = "DELETE FROM historical_period WHERE period_id = ?";
+		
+		try(Connection connection = connectDB();
+				PreparedStatement ps = connection.prepareStatement(sql)){
+			
+			ps.setInt(1, periodId);
+			
+			int rowsAffected = ps.executeUpdate();
+			
+	        if (rowsAffected == 1) {
+	            System.out.println(
+	                "Period ID: " + periodId + " deleted successfully.");
+	        } else {
+	            System.out.println(
+	                "No Period found with ID: " + periodId);
+	        }
+		}
 	}
 	
 	//TODO
@@ -305,7 +346,7 @@ public class DatabaseManager {
 	
 	// update historical record details == DONE
 	
-	// delete Book                      == 
+	// delete Book                      == DONE
 	
-	// delete historical record         ==
+ 	// delete historical record         == DONE
 }
