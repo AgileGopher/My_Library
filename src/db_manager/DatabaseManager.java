@@ -17,9 +17,24 @@ import data_classes.HistoricalPeriod;
 
 public class DatabaseManager {
 	
+	
+	// Singleton instance variable
+	private static DatabaseManager instance;
+	
+	
 
 	// constructor
-	public DatabaseManager() {}
+	private DatabaseManager() {}
+	
+	
+	
+	//Singleton method to ensure only one instance of DatabaseManager is created.
+	public static DatabaseManager getInstance() {
+		if(instance == null) {
+			instance = new DatabaseManager();
+		}
+		return instance;
+	}
 	
 	
 	
@@ -334,19 +349,9 @@ public class DatabaseManager {
 	}
 	
 	//TODO
-	// create new Book 					== DONE
+	// create environment varibale DBPassword
 	
-	// create new historical_record 	== DONE
+	// class validation methods
 	
-	// retrieve a Book				    == DONE
-	
-	// retrieve an historical_period	== DONE
-	
-	// update Book details				== DONE
-	
-	// update historical record details == DONE
-	
-	// delete Book                      == DONE
-	
- 	// delete historical record         == DONE
+	// testing
 }
