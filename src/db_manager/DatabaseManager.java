@@ -20,7 +20,7 @@ public class DatabaseManager {
 	// fields
 	private static List<HistoricalPeriod> historical_periods;
 	private static List<Book> bookCollection;
-	private static Librarian librarian;
+	private final Librarian librarian;
 
 	
 	
@@ -34,11 +34,11 @@ public class DatabaseManager {
 
 	
 	// getters
-	public static List<HistoricalPeriod> getHistorical_periods() {
+	public List<HistoricalPeriod> getHistorical_periods() {
 		return historical_periods;
 	}
 
-	public static List<Book> getBookCollection() {
+	public List<Book> getBookCollection() {
 		return bookCollection;
 	}
 	
