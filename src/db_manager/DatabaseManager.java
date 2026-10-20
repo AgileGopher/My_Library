@@ -13,34 +13,13 @@ import data_classes.Book;
 import data_classes.BookStatus;
 import data_classes.BookType;
 import data_classes.HistoricalPeriod;
-import io_classes.Librarian;
+
 
 public class DatabaseManager {
 	
-	// fields
-	private static List<HistoricalPeriod> historical_periods;
-	private static List<Book> bookCollection;
-	private final Librarian librarian;
 
-	
-	
 	// constructor
-	public DatabaseManager() {
-		historical_periods = new ArrayList<>();
-		bookCollection     = new ArrayList<>();
-		librarian          = new Librarian();
-	}
-
-
-	
-	// getters
-	public List<HistoricalPeriod> getHistorical_periods() {
-		return historical_periods;
-	}
-
-	public List<Book> getBookCollection() {
-		return bookCollection;
-	}
+	public DatabaseManager() {}
 	
 	
 	
@@ -49,30 +28,15 @@ public class DatabaseManager {
 		
 		String url      = "jdbc:mysql://localhost:3306/db_library";
 		String username = "root";
-		String password = "Ronaldo";
+		String password = "Ronaldo"; // TODO
 	
 		return DriverManager.getConnection(url, username, password);
 	}
 	
 	
 	
-	// method to connect to database, retrieve all data, and populate bookCollection and historical_periods lists
-	public void retrieveData() throws SQLException {
-		
-		try (Connection con = connectDB()){
-			
-			List<HistoricalPeriod> periods = retrieveHistoricalPeriods(con);
-			List<Book> books               = retrieveBooks(con);
-			
-			historical_periods = periods;
-			bookCollection     = books;
-		}
-	}
-	
-	
-	
 	// method to retrive histocial records from database
-	private static List<HistoricalPeriod> retrieveHistoricalPeriods(Connection con) throws SQLException {
+	public static List<HistoricalPeriod> retrieveHistoricalPeriods(Connection con) throws SQLException {
 		
 		List<HistoricalPeriod> historical_periods = new ArrayList<>();
 		
@@ -100,13 +64,13 @@ public class DatabaseManager {
 	
 	
 	// method to retrieve book data from database
-	private static List<Book> retrieveBooks(Connection con) throws SQLException {
+	public static List<Book> retrieveBooks(Connection con) throws SQLException {
 		
 		List<Book> books = new ArrayList<>();
 		
 		String sql = "SELECT * FROM Book";
 		
-		try (Statement stmt = con.createStatement();
+		try (Statement stmt  = con.createStatement();
 		     ResultSet rs    = stmt.executeQuery(sql)){
 		
 			while(rs.next()) {
@@ -139,7 +103,7 @@ public class DatabaseManager {
 		String sql = "SELECT * FROM BOOK WHERE book_id = ?";
 		
 		try (Connection connection = connectDB();
-			PreparedStatement ps = connection.prepareStatement(sql)){
+			 PreparedStatement ps  = connection.prepareStatement(sql)){
 			
 			ps.setInt(1, id);
 			
@@ -178,7 +142,7 @@ public class DatabaseManager {
 		String sql = "SELECT * FROM historical_period WHERE period_id = ?";
 		
 		try (Connection connection = connectDB();
-			 PreparedStatement ps = connection.prepareStatement(sql)){
+			 PreparedStatement ps  = connection.prepareStatement(sql)){
 			
 			ps.setInt(1, id);
 			
@@ -204,9 +168,7 @@ public class DatabaseManager {
 	
 	
 	// this method calls librarian to grab new book details from user
-	public void createNewBook() throws SQLException {
-		
-		Book newBook = librarian.getNewBookDataFromUser();
+	public void createNewBook(Book newBook) throws SQLException {
 		
 		String sql = "INSERT INTO book "
 				   + "(title, author, book_type, publication_year, "
@@ -218,10 +180,10 @@ public class DatabaseManager {
 			
 			ps.setString(1, newBook.getTitle()); // need to capitalize somehow
 			ps.setString(2, newBook.getAuthor());
-			ps.setString(3, newBook.getBookType().name());
+			ps.setString(3, newBook.getBookType().name().toUpperCase());
 			ps.setInt(4, newBook.getYearPublished());
 			ps.setInt(5, newBook.getPeriodId());
-			ps.setString(6, newBook.getStatus().name());
+			ps.setString(6, newBook.getStatus().name().toUpperCase());
 			ps.setInt(7, newBook.getRating());
 			ps.setString(8, newBook.getNotes());
 			
@@ -236,9 +198,7 @@ public class DatabaseManager {
 	
 	
 	// this method calls librarian to grab new HistoricalPeriod details from user
-	public void createNewHistoricalPeriod() throws SQLException {
-		
-		HistoricalPeriod newPeriod = librarian.getNewHistoricalPeriodDataFromUser();
+	public void createNewHistoricalPeriod(HistoricalPeriod newPeriod) throws SQLException {
 		
 		String sql = "INSERT INTO historical_period "
 				   + "(name, start_year, end_year, description) "
@@ -262,24 +222,21 @@ public class DatabaseManager {
 	
 	
 	
-	public void updateBook(int bookId) throws SQLException {
-		
-		//TODO need to alter this method to take in updatedBook obejct with id instead of calling librarian to do it inside method
-		Book updatedBook = librarian.getNewBookDataFromUser();
+	public void updateBook(int bookId, Book updatedBook) throws SQLException {
 		
 		String sql = "UPDATE book "
 				   + "SET title = ?, author = ?, book_type = ?, publication_year = ?, period_id = ?, status = ?, rating = ?, notes = ? "
 				   + "WHERE book_id = ?";
 		
 		try (Connection connection = connectDB();
-			PreparedStatement ps = connection.prepareStatement(sql)){
+			 PreparedStatement ps  = connection.prepareStatement(sql)){
 			
 			ps.setString(1, updatedBook.getTitle());
 			ps.setString(2, updatedBook.getAuthor());
-			ps.setString(3, String.valueOf(updatedBook.getBookType()).toUpperCase());
+			ps.setString(3, updatedBook.getBookType().name().toUpperCase());
 			ps.setInt(4, updatedBook.getYearPublished());
 			ps.setInt(5, updatedBook.getPeriodId());
-			ps.setString(6, String.valueOf(updatedBook.getStatus()).toUpperCase());
+			ps.setString(6, updatedBook.getStatus().name().toUpperCase());
 			ps.setInt(7, updatedBook.getRating());
 			ps.setString(8, updatedBook.getNotes());
 			ps.setInt(9, bookId);
@@ -298,16 +255,14 @@ public class DatabaseManager {
 	}
 	
 	
-	public void updateHistoricalPeriod(int periodId) throws SQLException {
-		
-		HistoricalPeriod updatedPeriod = librarian.getNewHistoricalPeriodDataFromUser();
+	public void updateHistoricalPeriod(int periodId, HistoricalPeriod updatedPeriod) throws SQLException {
 		
 		String sql = "UPDATE historical_period "
 				   + "SET name = ?, start_year = ?, end_year = ?, description = ? "
 				   + "WHERE period_id = ?";
 		
 		try (Connection connection = connectDB();
-			 PreparedStatement ps = connection.prepareStatement(sql)){
+			 PreparedStatement ps  = connection.prepareStatement(sql)){
 			
 			ps.setString(1, updatedPeriod.getName());
 			ps.setInt(2, updatedPeriod.getStart_year());
@@ -319,10 +274,10 @@ public class DatabaseManager {
 
 	        if (rowsAffected == 1) {
 	            System.out.println(
-	                "Book ID: " + periodId + " updated successfully.");
+	                "Period ID: " + periodId + " updated successfully.");
 	        } else {
 	            System.out.println(
-	                "No book found with ID: " + periodId);
+	                "No period found with ID: " + periodId);
 	        }
 		}	
 	}
