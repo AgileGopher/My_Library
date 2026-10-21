@@ -4,23 +4,21 @@ import java.sql.SQLException;
 
 import data_classes.Book;
 import db_manager.DatabaseManager;
-import io_classes.Librarian;
+
 
 public class Driver {
 
 	private static DatabaseManager dbManager;
-	private static Librarian librarian;
 	
 	
 	public Driver() {
+		dbManager = DatabaseManager.getInstance();
 	}
 	
 	
 	public static void main(String[] args) {
 		
-		dbManager = new DatabaseManager();
-		librarian = new Librarian();
-		
+
 		try {
 			//Book book = librarian.getNewBookDataFromUser();
 			//dbManager.createNewBook(book);
