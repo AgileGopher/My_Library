@@ -37,6 +37,23 @@ public class DatabaseManager {
 	}
 	
 	
+	private static void validateID(int id) {
+		if(id < 1) {
+			throw new IllegalArgumentException("Invalid ID: " + id);
+		}
+	}
+	
+	
+	
+	private static void validateBook(Book book) {
+		
+	}
+	
+	
+	private static void validateHistoricalPeriod(HistoricalPeriod period) {
+		
+	}
+	
 	
 	// method to create a database connection
 	private Connection connectDB() throws SQLException {
@@ -51,13 +68,14 @@ public class DatabaseManager {
 	
 	
 	// method to retrive histocial records from database
-	public static List<HistoricalPeriod> retrieveHistoricalPeriods(Connection con) throws SQLException {
+	public List<HistoricalPeriod> retrieveHistoricalPeriods() throws SQLException {
 		
 		List<HistoricalPeriod> historical_periods = new ArrayList<>();
 		
 		String sql = "SELECT * FROM historical_period";
 		
-		try(Statement stmt = con.createStatement();
+		try(Connection con = connectDB();
+			Statement stmt = con.createStatement();
 		    ResultSet rs   = stmt.executeQuery(sql)){
 		
 			while(rs.next()) {
@@ -79,13 +97,14 @@ public class DatabaseManager {
 	
 	
 	// method to retrieve book data from database
-	public static List<Book> retrieveBooks(Connection con) throws SQLException {
+	public List<Book> retrieveBooks() throws SQLException {
 		
 		List<Book> books = new ArrayList<>();
 		
 		String sql = "SELECT * FROM Book";
 		
-		try (Statement stmt  = con.createStatement();
+		try (Connection con  = connectDB();
+			 Statement stmt  = con.createStatement();
 		     ResultSet rs    = stmt.executeQuery(sql)){
 		
 			while(rs.next()) {
@@ -115,6 +134,7 @@ public class DatabaseManager {
 	// method to retrieve book object from datbase 
 	public Book retrieveBook(int id) throws SQLException {
 
+		validateID(id);
 		String sql = "SELECT * FROM BOOK WHERE book_id = ?";
 		
 		try (Connection connection = connectDB();
@@ -154,6 +174,7 @@ public class DatabaseManager {
 	// method to retrieve historicalPeriod object from datbase
 	public HistoricalPeriod retrieveHistoricalPeriod(int id)  throws SQLException {
 		
+		validateID(id);
 		String sql = "SELECT * FROM historical_period WHERE period_id = ?";
 		
 		try (Connection connection = connectDB();
@@ -240,6 +261,7 @@ public class DatabaseManager {
 	// method to update historical_period in database
 	public void updateBook(int bookId, Book updatedBook) throws SQLException {
 		
+		validateID(bookId);
 		String sql = "UPDATE book "
 				   + "SET title = ?, author = ?, book_type = ?, publication_year = ?, period_id = ?, status = ?, rating = ?, notes = ? "
 				   + "WHERE book_id = ?";
@@ -275,6 +297,7 @@ public class DatabaseManager {
 	// method to update historical_period in database
 	public void updateHistoricalPeriod(int periodId, HistoricalPeriod updatedPeriod) throws SQLException {
 		
+		validateID(periodId);
 		String sql = "UPDATE historical_period "
 				   + "SET name = ?, start_year = ?, end_year = ?, description = ? "
 				   + "WHERE period_id = ?";
@@ -305,6 +328,7 @@ public class DatabaseManager {
 	// method to delete book from database
 	public void deleteBook(int bookId) throws SQLException {
 		
+		validateID(bookId);
 		String sql = "DELETE FROM book WHERE book_id = ?";
 		
 		try(Connection connection = connectDB();
@@ -329,10 +353,11 @@ public class DatabaseManager {
 	// method to delete historical_period from database
 	public void deleteHistoricalPeriod(int periodId) throws SQLException {
 		
+		validateID(periodId);
 		String sql = "DELETE FROM historical_period WHERE period_id = ?";
 		
 		try(Connection connection = connectDB();
-				PreparedStatement ps = connection.prepareStatement(sql)){
+			PreparedStatement ps  = connection.prepareStatement(sql)){
 			
 			ps.setInt(1, periodId);
 			
