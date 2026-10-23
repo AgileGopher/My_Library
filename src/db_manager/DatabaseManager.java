@@ -60,7 +60,7 @@ public class DatabaseManager {
 		
 		String url      = "jdbc:mysql://localhost:3306/db_library";
 		String username = "root";
-		String password = "Ronaldo"; // TODO
+		String password = System.getenv("DB_PASSWORD");
 	
 		return DriverManager.getConnection(url, username, password);
 	}
