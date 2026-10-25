@@ -34,6 +34,7 @@ class DBTest {
 	}
 	
 	
+	// retrieval tests
 	@Test
 	void retrieveBooks_returnslist() throws Exception {
 		
@@ -45,6 +46,7 @@ class DBTest {
 	}
 	
 	
+	
 	@Test
 	void retrievePeriods_returnslist() throws Exception {
 		
@@ -54,6 +56,7 @@ class DBTest {
 		
 		assertNotNull(periods);
 	}
+	
 	
 	
 	@Test
@@ -70,6 +73,7 @@ class DBTest {
 	}
 	
 	
+	
 	@Test
 	void retrieveBook_withNonexistentId() throws Exception {
 		
@@ -81,6 +85,7 @@ class DBTest {
 		assertNull(book);
 	}
 
+	
 	
 	@Test
 	void retrievePeriod_withExcistingId() throws Exception {
@@ -96,6 +101,7 @@ class DBTest {
 	}
 	
 	
+	
 	@Test
 	void retrievePeriod_withNonexistentId() throws Exception {
 		
@@ -106,4 +112,8 @@ class DBTest {
 		
 		assertNull(book);
 	}
+	
+	
+	
+	
 }
