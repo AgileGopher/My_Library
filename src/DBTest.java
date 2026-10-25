@@ -71,7 +71,7 @@ class DBTest {
 	
 	
 	@Test
-	void retrieveBook_withNonexistentId_returnsNull() throws Exception {
+	void retrieveBook_withNonexistentId() throws Exception {
 		
 		DatabaseManager dbManager = DatabaseManager.getInstance();
 		int nonexistentId = 999;
@@ -81,4 +81,29 @@ class DBTest {
 		assertNull(book);
 	}
 
+	
+	@Test
+	void retrievePeriod_withExcistingId() throws Exception {
+		
+		DatabaseManager dbManager = DatabaseManager.getInstance();
+		int periodId = 1;
+		
+		HistoricalPeriod period = dbManager.retrieveHistoricalPeriod(periodId);
+		
+		assertNotNull(period);
+		assertEquals("Early Civilizations & Mesopotamia", period.getName());
+		assertEquals(periodId, period.getPeriodID());
+	}
+	
+	
+	@Test
+	void retrievePeriod_withNonexistentId() throws Exception {
+		
+		DatabaseManager dbManager = DatabaseManager.getInstance();
+		int nonexistentId = 999;
+		
+		Book book = dbManager.retrieveBook(nonexistentId);
+		
+		assertNull(book);
+	}
 }
