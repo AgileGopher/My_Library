@@ -14,9 +14,11 @@ public class Librarian {
 	private Keyboard kb;
 
 	
+	
 	public Librarian() {
 		kb = new Keyboard();
 	}
+	
 	
 	
 	private static void validateID(int id) {
@@ -25,12 +27,9 @@ public class Librarian {
 		}
 	}
 	
-	
-	
 	private static void validateBook(Book book) {
 		
 	}
-	
 	
 	private static void validateHistoricalPeriod(HistoricalPeriod period) {
 		
