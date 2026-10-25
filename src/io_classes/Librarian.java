@@ -19,6 +19,25 @@ public class Librarian {
 	}
 	
 	
+	private static void validateID(int id) {
+		if(id < 1) {
+			throw new IllegalArgumentException("Invalid ID: " + id);
+		}
+	}
+	
+	
+	
+	private static void validateBook(Book book) {
+		
+	}
+	
+	
+	private static void validateHistoricalPeriod(HistoricalPeriod period) {
+		
+	}
+	
+	
+	
 	// method to take in new book data from user
 	public Book getNewBookDataFromUser() {
 		Book book = new Book();
