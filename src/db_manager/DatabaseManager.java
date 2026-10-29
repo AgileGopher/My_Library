@@ -41,7 +41,7 @@ public class DatabaseManager {
 	// method to create a database connection
 	private Connection connectDB() throws SQLException {
 		
-		String url      = "jdbc:mysql://localhost:3306/db_library";
+		String url      = "jdbc:mysql://localhost:3306/db_library_tests";
 		String username = "root";
 		String password = System.getenv("DB_PASSWORD");
 	
