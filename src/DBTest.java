@@ -182,5 +182,49 @@ class DBTest {
 	    }
 	}
 	
+	
+	
+	@Test
+	void createNewHistoricalPeriod_savesPeriodSuccessfully() throws SQLException {
+
+	    DatabaseManager db = DatabaseManager.getInstance();
+
+	    String testName = "JUnit Period " + UUID.randomUUID();
+
+	    HistoricalPeriod newPeriod = new HistoricalPeriod();
+	    newPeriod.setName(testName);
+	    newPeriod.setStart_year(1900);
+	    newPeriod.setEnd_year(1950);
+	    newPeriod.setDescription("Created by a JUnit test.");
+
+	    try {
+	        db.createNewHistoricalPeriod(newPeriod);
+
+	        HistoricalPeriod savedPeriod = db.retrieveHistoricalPeriods()
+	                .stream()
+	                .filter(period -> testName.equals(period.getName()))
+	                .findFirst()
+	                .orElse(null);
+
+	        assertNotNull(savedPeriod, "The historical period should have been saved.");
+	        assertEquals(testName, savedPeriod.getName());
+	        assertEquals(1900, savedPeriod.getStart_year());
+	        assertEquals(1950, savedPeriod.getEnd_year());
+	        assertEquals("Created by a JUnit test.", savedPeriod.getDescription());
+
+	    } finally {
+	        HistoricalPeriod savedPeriod = db.retrieveHistoricalPeriods()
+	                .stream()
+	                .filter(period -> testName.equals(period.getName()))
+	                .findFirst()
+	                .orElse(null);
+
+	        if (savedPeriod != null) {
+	            db.deleteHistoricalPeriod(savedPeriod.getPeriodID());
+	        }
+	    }
+	}
+	
+	
 
 }
