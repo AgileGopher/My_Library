@@ -67,12 +67,12 @@ class DBTest {
 	void retrieveBook_withExcistingId() throws Exception {
 		
 		DatabaseManager dbManager = DatabaseManager.getInstance();
-		int id = 1;
+		int id = 2;
 		
 		Book book = dbManager.retrieveBook(id);
 		
 		assertNotNull(book);
-		assertEquals("Gilgamesh the King", book.getTitle());
+		assertEquals("A History of the Ancient Near East", book.getTitle());
 		assertEquals(id, book.getBookId());
 	}
 	
@@ -225,11 +225,68 @@ class DBTest {
 	    }
 	}
 	
-	
-	
 	@Test
 	void updateBook_updatesBookSuccessfully() throws SQLException {
 		
+		DatabaseManager db = DatabaseManager.getInstance();
+		
+	
+	    List<HistoricalPeriod> periods = db.retrieveHistoricalPeriods();
+	    assertFalse(periods.isEmpty(), "The test database must contain a historical period.");
+	
+	    int periodId = periods.get(0).getPeriodID();
+		
+	    String testTitle = "Original Test ";
+	
+	    Book newBook = new Book();
+	    newBook.setTitle(testTitle);
+	    newBook.setAuthor("Test Author");
+	    newBook.setBookType(BookType.values()[0]);
+	    newBook.setYearPublished(2000);
+	    newBook.setPeriodId(periodId);
+	    newBook.setStatus(BookStatus.values()[0]);
+	    newBook.setRating(5);
+	    newBook.setNotes("Created by a JUnit test.");
+	    
+	    
+	    int bookId = -1;
+	    
+	    try {
+	    	db.createNewBook(newBook);
+	    	
+	        Book savedBook = db.retrieveBooks()
+	                .stream()
+	                .filter(book -> testTitle.equals(book.getTitle()))
+	                .findFirst()
+	                .orElseThrow();
+	         
+	        bookId = savedBook.getBookId();
+	        
+	        savedBook.setTitle("Updated Test Title");
+	        savedBook.setAuthor("Updated Author");
+	        savedBook.setRating(9);
+	        savedBook.setNotes("Updated notes.");
+	        
+	        db.updateBook(bookId, savedBook);
+	        
+	        Book updatedBook = db.retrieveBook(bookId);
+	        
+	        assertNotNull(updatedBook);
+	        assertEquals("Updated Test Title", updatedBook.getTitle());
+	        assertEquals("Updated Author", updatedBook.getAuthor());
+	        assertEquals(9, updatedBook.getRating());
+	        assertEquals("Updated notes.", updatedBook.getNotes());
+	        
+	    } finally {
+	        if (bookId != -1) {
+	            db.deleteBook(bookId);
+	        }
+	    }	        
 	}
+	
+	
+	
+
+	
 
 }
