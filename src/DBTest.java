@@ -284,9 +284,5 @@ class DBTest {
 	    }	        
 	}
 	
-	
-	
-
-	
 
 }
