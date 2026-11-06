@@ -138,9 +138,16 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [bookId=" + bookId + ", name=" + title + ", author=" + author + ", bookType=" + bookType
-				+ ", yearPublished=" + yearPublished + ", periodId=" + periodId + ", status=" + status + ", rating="
-				+ rating + ", notes=" + notes + "]";
+		return "Book [bookId=" + bookId + 
+			   ", name=" + title + 
+			   ", author=" + author + 
+			   ", bookType=" + bookType + 
+			   ", yearPublished=" + yearPublished + 
+			   ", periodId=" + periodId + 
+			   ", status=" + status + 
+			   ", rating=" + rating + 
+			   ", notes=" + notes + 
+			   "]";
 	}
 	
 	

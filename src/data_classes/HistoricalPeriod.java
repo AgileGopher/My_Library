@@ -84,8 +84,12 @@ public class HistoricalPeriod {
 	// toString
 	@Override
 	public String toString() {
-		return "HistoricalPeriod [periodID=" + periodID + ", name=" + name + ", start_year=" + start_year
-				+ ", end_year=" + end_year + ", description=" + description + "]";
+		return "HistoricalPeriod [periodID=" + periodID + 
+				", name=" + name + 
+				", start_year=" + start_year + 
+				", end_year=" + end_year + 
+				", description=" + description + 
+				"]";
 	}
 	
 	
