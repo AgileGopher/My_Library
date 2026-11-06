@@ -7,7 +7,7 @@ import data_classes.HistoricalPeriod;
 
 /*
  * this class is responible for being the mediator between the user and the database. this class takes in
- * all external data and hands it off the the database manager to be processed for database CRUD operations.
+ * all external data from user and uses the database manager to process database CRUD operations.
  */
 public class Librarian {
 	
@@ -20,12 +20,6 @@ public class Librarian {
 	}
 	
 	
-	
-	private static void validateID(int id) {
-		if(id < 1) {
-			throw new IllegalArgumentException("Invalid ID: " + id);
-		}
-	}
 	
 	private static void validateBook(Book book) {
 		

@@ -15,7 +15,11 @@ public class Book {
 	
 	
 	
-	// constructor
+	// constructors
+	public Book() {
+		super();
+	}
+	
 	public Book(int bookId, String title, String author, BookType type, Integer yearPublished, int periodId, BookStatus status, Integer rating, String notes) {
 		this.bookId        = bookId;
 		this.title         = title;
@@ -27,12 +31,45 @@ public class Book {
 		this.rating        = rating;
 		this.notes         = notes;
 	}
-	
-	
-	public Book() {
-		super();
-	}
 
+	
+	
+	// validation methods
+	private static void validateId(int id) {
+		if(id < 1) {
+			throw new IllegalArgumentException("Book Error, invalid book id: " + id);
+		}
+	}
+	
+	private static void validateTitle(String title) {
+		if(title.isBlank() || title.length() > 100) {
+			throw new IllegalArgumentException("Book Error, invalid title: " + title);
+		}
+	}
+	
+	private static void validateAuthor(String author) {
+		if(author.isBlank() || author.length() > 50) {
+			throw new IllegalArgumentException("Book Error, invalid title: " + author);
+		}
+	}
+	
+	private static void validateYear(int year){
+		if(year > 2026) {
+			throw new IllegalArgumentException("Book Error, invalid year: " + year);
+		}
+	}
+	
+	private static void validateRating(int rating){
+		if(rating < 1 || rating > 10) {
+			throw new IllegalArgumentException("Book Error, invalid rating: " + rating);
+		}
+	}
+	
+	private static void validateNotes(String notes) {
+		if(notes.length() > 500) {
+			throw new IllegalArgumentException("Book Error, invalid notes: " + notes);
+		}
+	}
 
 
 	// getters
@@ -40,49 +77,33 @@ public class Book {
 		return bookId;
 	}
 
-
-
 	public String getTitle() {
 		return title;
 	}
-
-
 
 	public String getAuthor() {
 		return author;
 	}
 
-
-
 	public BookType getBookType() {
 		return bookType;
 	}
-
-
 
 	public Integer getYearPublished() {
 		return yearPublished;
 	}
 
-
-
 	public int getPeriodId() {
 		return periodId;
 	}
-
-
 
 	public BookStatus getStatus() {
 		return status;
 	}
 
-
-
 	public Integer getRating() {
 		return rating;
 	}
-
-
 
 	public String getNotes() {
 		return notes;
@@ -99,36 +120,29 @@ public class Book {
 		this.periodId = periodId;
 	}
 
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 
 	public void setAuthor(String author) {
 		this.author = author;
 	}
 
-
 	public void setBookType(BookType bookType) {
 		this.bookType = bookType;
 	}
-
 
 	public void setYearPublished(Integer yearPublished) {
 		this.yearPublished = yearPublished;
 	}
 
-
 	public void setStatus(BookStatus status) {
 		this.status = status;
 	}
 
-
 	public void setRating(Integer rating) {
 		this.rating = rating;
 	}
-
 
 	public void setNotes(String notes) {
 		this.notes = notes;
@@ -136,6 +150,7 @@ public class Book {
 
 
 
+	// toString
 	@Override
 	public String toString() {
 		return "Book [bookId=" + bookId + 
