@@ -32,19 +32,19 @@ public class Book {
 		super();
 	}
 	
-	public Book(int bookId, String title, String author, BookType type, Integer yearPublished, int periodId, BookStatus status, Integer rating, String notes) {
+	public Book(int bookId, String title, String author, String type, Integer yearPublished, int periodId, String status, Integer rating, String notes) {
 		validateId(bookId);
 		this.bookId = bookId;
 		validateTitle(title);
 		this.title = title;
 		validateAuthor(author);
 		this.author = author;
-		this.bookType = type;
+		this.bookType = validateBookType(type);
 		validateYear(yearPublished);
 		this.yearPublished = yearPublished;
 		validateId(periodId);
 		this.periodId = periodId;
-		this.status = status;
+		this.status = validateBookStatus(status);
 		validateRating(rating);
 		this.rating = rating;
 		validateNotes(notes);
@@ -60,11 +60,13 @@ public class Book {
 		}
 	}
 	
+	
 	private static void validateTitle(String title) {
 		if(title.isBlank() || title.length() > MAX_TITLE_LENGTH) {
 			throw new IllegalArgumentException("Book Error, invalid title: " + title);
 		}
 	}
+	
 	
 	private static void validateAuthor(String author) {
 		if(author.isBlank() || author.length() > MAX_AUTHOR_LENGTH) {
@@ -72,17 +74,40 @@ public class Book {
 		}
 	}
 	
+	
+	private static BookType validateBookType(String type) {
+		try {
+			return BookType.valueOf(type.trim().toUpperCase());
+		}
+		catch(IllegalArgumentException | NullPointerException e) {
+			throw new IllegalArgumentException("Book Error, invalid book type: " + type);
+		}
+	}
+	
+	
 	private static void validateYear(int year){
 		if(year > Year.now().getValue()) {
 			throw new IllegalArgumentException("Book Error, invalid year: " + year);
 		}
 	}
 	
+	
+	private static BookStatus validateBookStatus(String status) {
+		try {
+			return BookStatus.valueOf(status.trim().toUpperCase());
+		}
+		catch(IllegalArgumentException | NullPointerException e) {
+			throw new IllegalArgumentException("Book Error, invalid book status: " + status);
+		}
+	}
+	
+	
 	private static void validateRating(int rating){
 		if(rating < MIN_RATING_VALUE || rating > MAX_RATING_VALUE) {
 			throw new IllegalArgumentException("Book Error, invalid rating: " + rating);
 		}
 	}
+	
 	
 	private static void validateNotes(String notes) {
 		if(notes.length() > MAX_NOTES_LENGTH) {
@@ -153,6 +178,9 @@ public class Book {
 	}
 
 	public void setBookType(BookType bookType) {
+	    if (bookType == null) {
+	        throw new IllegalArgumentException("Book Error, book type cannot be null.");
+	    }
 		this.bookType = bookType;
 	}
 
@@ -162,6 +190,9 @@ public class Book {
 	}
 
 	public void setStatus(BookStatus status) {
+	    if (status == null) {
+	        throw new IllegalArgumentException("Book Error, book status cannot be null.");
+	    }
 		this.status = status;
 	}
 
