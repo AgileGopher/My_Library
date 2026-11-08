@@ -18,6 +18,12 @@ public class Book {
 	
 	
 	// symbolic constants
+	private static final int MIN_ID_VALUE      = 1;
+	private static final int MAX_TITLE_LENGTH  = 100;
+	private static final int MAX_AUTHOR_LENGTH = 50;
+	private static final int MIN_RATING_VALUE  = 1;
+	private static final int MAX_RATING_VALUE  = 10;
+	private static final int MAX_NOTES_LENGTH  = 500;
 	
 	
 	
@@ -27,34 +33,41 @@ public class Book {
 	}
 	
 	public Book(int bookId, String title, String author, BookType type, Integer yearPublished, int periodId, BookStatus status, Integer rating, String notes) {
-		this.bookId        = bookId;
-		this.title         = title;
-		this.author        = author;
-		this.bookType      = type;
+		validateId(bookId);
+		this.bookId = bookId;
+		validateTitle(title);
+		this.title = title;
+		validateAuthor(author);
+		this.author = author;
+		this.bookType = type;
+		validateYear(yearPublished);
 		this.yearPublished = yearPublished;
-		this.periodId      = periodId;
-		this.status        = status;
-		this.rating        = rating;
-		this.notes         = notes;
+		validateId(periodId);
+		this.periodId = periodId;
+		this.status = status;
+		validateRating(rating);
+		this.rating = rating;
+		validateNotes(notes);
+		this.notes = notes;
 	}
 
 	
 	
 	// validation methods
 	private static void validateId(int id) {
-		if(id < 1) {
+		if(id < MIN_ID_VALUE) {
 			throw new IllegalArgumentException("Book Error, invalid book id: " + id);
 		}
 	}
 	
 	private static void validateTitle(String title) {
-		if(title.isBlank() || title.length() > 100) {
+		if(title.isBlank() || title.length() > MAX_TITLE_LENGTH) {
 			throw new IllegalArgumentException("Book Error, invalid title: " + title);
 		}
 	}
 	
 	private static void validateAuthor(String author) {
-		if(author.isBlank() || author.length() > 50) {
+		if(author.isBlank() || author.length() > MAX_AUTHOR_LENGTH) {
 			throw new IllegalArgumentException("Book Error, invalid title: " + author);
 		}
 	}
@@ -66,18 +79,19 @@ public class Book {
 	}
 	
 	private static void validateRating(int rating){
-		if(rating < 1 || rating > 10) {
+		if(rating < MIN_RATING_VALUE || rating > MAX_RATING_VALUE) {
 			throw new IllegalArgumentException("Book Error, invalid rating: " + rating);
 		}
 	}
 	
 	private static void validateNotes(String notes) {
-		if(notes.length() > 500) {
+		if(notes.length() > MAX_NOTES_LENGTH) {
 			throw new IllegalArgumentException("Book Error, invalid notes: " + notes);
 		}
 	}
 
 
+	
 	// getters
 	public int getBookId() {
 		return bookId;
@@ -119,18 +133,22 @@ public class Book {
 
 	// setters
 	public void setBookId(int bookId) {
+		validateId(bookId);
 		this.bookId = bookId;
 	}
 	
 	public void setPeriodId(int periodId) {
+		validateId(periodId);
 		this.periodId = periodId;
 	}
 
 	public void setTitle(String title) {
+		validateTitle(title);
 		this.title = title;
 	}
 
 	public void setAuthor(String author) {
+		validateAuthor(author);
 		this.author = author;
 	}
 
@@ -139,6 +157,7 @@ public class Book {
 	}
 
 	public void setYearPublished(Integer yearPublished) {
+		validateYear(yearPublished);
 		this.yearPublished = yearPublished;
 	}
 
@@ -147,10 +166,12 @@ public class Book {
 	}
 
 	public void setRating(Integer rating) {
+		validateRating(rating);
 		this.rating = rating;
 	}
 
 	public void setNotes(String notes) {
+		validateNotes(notes);
 		this.notes = notes;
 	}
 
