@@ -5,15 +5,15 @@ import java.time.Year;
 public class Book {
 
 	// class fields
-	int bookId;
-	String title;
-	String author;
-	BookType bookType;
-	Integer yearPublished;
-	int periodId;
-	BookStatus status;
-	Integer rating;
-	String notes;
+	private int bookId;
+	private String title;
+	private String author;
+	private BookType bookType;
+	private Integer yearPublished;
+	private int periodId;
+	private BookStatus status;
+	private Integer rating;
+	private String notes;
 	
 	
 	
