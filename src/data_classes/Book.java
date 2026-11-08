@@ -1,5 +1,7 @@
 package data_classes;
 
+import java.time.Year;
+
 public class Book {
 
 	// class fields
@@ -12,6 +14,10 @@ public class Book {
 	BookStatus status;
 	Integer rating;
 	String notes;
+	
+	
+	
+	// symbolic constants
 	
 	
 	
@@ -54,7 +60,7 @@ public class Book {
 	}
 	
 	private static void validateYear(int year){
-		if(year > 2026) {
+		if(year > Year.now().getValue()) {
 			throw new IllegalArgumentException("Book Error, invalid year: " + year);
 		}
 	}
