@@ -12,6 +12,11 @@ public class HistoricalPeriod {
 	
 	
 	// symbolic constants
+	private static final int MIN_ID_VALUE           = 1;
+	private static final int MAX_NAME_LENGTH        = 50;
+	private static final int START_YEAR_LIMIT       = -3500;
+	private static final int END_YEAR_LIMIT         = 1945;
+	private static final int MAX_DESCRIPTION_LENGTH = 500;
 	
 	
 	
@@ -37,23 +42,60 @@ public class HistoricalPeriod {
 	
 	// validation methods
 	private static void validateId(int id) {
-		
+		if(id < MIN_ID_VALUE) {
+			throw new IllegalArgumentException("Historical Period Error, invalid period id: " + id);
+		}
 	}
 	
 	private static void validateName(String name) {
-		
+		if(name.isBlank() || name.length() > MAX_NAME_LENGTH) {
+			throw new IllegalArgumentException("Historical Period Error, invalid name: " + name);
+		}
 	}
 	
 	private static void validateStartYear(int startYear) {
-		
+		if(startYear < START_YEAR_LIMIT) {
+			throw new IllegalArgumentException("Historical Period Error, invalid start year: " + startYear);
+		}
 	}
 	
 	private static void validateEndyear(int endYear) {
-		
+		if(endYear > END_YEAR_LIMIT) {
+			throw new IllegalArgumentException("Historical Period Error, invalid end year: " + endYear);
+		}
 	}
 	
 	private static void validateDescription(String description) {
-		
+		if(description.isBlank() || description.length() > MAX_DESCRIPTION_LENGTH) {
+			throw new IllegalArgumentException("Historical Period Error, invalid description: " + description);
+		}
+	}
+	
+	
+	
+	// getters
+	public int getPeriodID() {
+		return periodID;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public int getStart_year() {
+		return start_year;
+	}
+
+
+	public int getEnd_year() {
+		return end_year;
+	}
+
+
+	public String getDescription() {
+		return description;
 	}
 	
 	
@@ -86,33 +128,6 @@ public class HistoricalPeriod {
 	public void setDescription(String description) {
 		validateDescription(description);
 		this.description = description;
-	}
-
-	
-
-	// getters
-	public int getPeriodID() {
-		return periodID;
-	}
-
-
-	public String getName() {
-		return name;
-	}
-
-
-	public int getStart_year() {
-		return start_year;
-	}
-
-
-	public int getEnd_year() {
-		return end_year;
-	}
-
-
-	public String getDescription() {
-		return description;
 	}
 
 
