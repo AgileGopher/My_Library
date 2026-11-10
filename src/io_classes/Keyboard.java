@@ -9,10 +9,12 @@ public class Keyboard {
 	private Scanner input;
 	
 	
+	
 	// constructor
 	public Keyboard() {
 		input = new Scanner(System.in);
 	}
+	
 	
 	
 	/*
