@@ -350,6 +350,5 @@ public class DatabaseManager {
 		}
 	}
 	
-	//TODO
-	// testing
+
 }

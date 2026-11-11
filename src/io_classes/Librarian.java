@@ -11,22 +11,14 @@ import data_classes.HistoricalPeriod;
  */
 public class Librarian {
 	
+	// fields
 	private Keyboard kb;
 
 	
 	
+	// constructor
 	public Librarian() {
 		kb = new Keyboard();
-	}
-	
-	
-	
-	private static void validateBook(Book book) {
-		
-	}
-	
-	private static void validateHistoricalPeriod(HistoricalPeriod period) {
-		
 	}
 	
 	
