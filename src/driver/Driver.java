@@ -39,6 +39,31 @@ public class Driver {
 					+ "2. CRUD historical Period Menu\n"
 					+ "3. Display full Library\n"
 					+ "4. Quit\n");
+			
+			choice = kb.readInteger(promptMsg, errorMsg, 1, 4);
+			
+			switch(choice) {
+			
+				case 1:
+					runBookMenu();
+					break;
+					
+				case 2:
+					runHistoricalPeriodMenu();
+					break;
+					
+				case 3:
+					System.out.println("Working on it..");
+					break;
+					
+				case 4:
+					proceed = false;
+					System.out.println("Bye for now!");
+					break;
+					
+				default:
+					System.out.println("Invalid entry!");
+			}
 		}
 	}
 	
@@ -64,5 +89,13 @@ public class Driver {
 	
 	public static void main(String[] args) {
 		
+		Driver d = new Driver();
+		
+		try {
+			d.runProgram();
+		}
+		catch(IllegalArgumentException | SQLException e) {
+			System.out.println(e);	
+		}
 	}
 }
