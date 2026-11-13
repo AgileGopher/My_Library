@@ -29,7 +29,7 @@ public class Driver {
 		boolean proceed = true;
 		
 		String promptMsg = "Make a selection:\n";
-		String errorMsg = "Invalid entry, enter and integer value in the range ()\n";
+		String errorMsg = "Invalid entry, enter and integer value in the range (1 - 4)\n";
 		
 		while(proceed) {
 			
@@ -71,6 +71,24 @@ public class Driver {
 	
 	// method to launch book menu
 	void runBookMenu() throws SQLException {
+		
+		int choice;
+		boolean proceed = true;
+		
+		String promptMsg = "Make a selection:\n";
+		String errorMsg = "Invalid entry, enter and integer value in the range (1 - 6)\n";
+		
+		while(proceed) {
+			
+			System.out.println("--------Driver CRUD Menu--------\n"
+					+ "1. Create Book\n"
+					+ "2. Read Book Information\n"
+					+ "3. Read Book Library\n"
+					+ "4. Update Book Information\n"
+					+ "5. Delete Book\n"
+					+ "6. Back");
+		}
+		
 		
 	}
 	
