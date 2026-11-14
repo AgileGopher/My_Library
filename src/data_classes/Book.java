@@ -2,6 +2,9 @@ package data_classes;
 
 import java.time.Year;
 
+import enums.BookStatus;
+import enums.BookType;
+
 public class Book {
 
 	// class fields

@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.UUID;
 
 import data_classes.Book;
-import data_classes.BookStatus;
-import data_classes.BookType;
 import data_classes.HistoricalPeriod;
 import db_manager.DatabaseManager;
+import enums.BookStatus;
+import enums.BookType;
 
 class DBTest {
 

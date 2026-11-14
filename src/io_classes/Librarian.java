@@ -1,9 +1,9 @@
 package io_classes;
 
 import data_classes.Book;
-import data_classes.BookStatus;
-import data_classes.BookType;
 import data_classes.HistoricalPeriod;
+import enums.BookStatus;
+import enums.BookType;
 
 /*
  * this class is responible for being the mediator between the user and the database. this class takes in

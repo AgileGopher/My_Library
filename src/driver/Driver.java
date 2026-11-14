@@ -2,8 +2,10 @@ package driver;
 
 import java.sql.SQLException;
 
+import data_classes.Book;
 import db_manager.DatabaseManager;
 import io_classes.Keyboard;
+import io_classes.Librarian;
 
 
 public class Driver {
@@ -11,6 +13,7 @@ public class Driver {
 	// fields
 	private static DatabaseManager dbManager;
 	private static Keyboard kb;
+	private static Librarian librarian;
 	
 	
 	
@@ -18,6 +21,7 @@ public class Driver {
 	public Driver() {
 		dbManager = DatabaseManager.getInstance();
 		kb        = new Keyboard();
+		librarian = new Librarian();
 	}
 	
 	
@@ -75,8 +79,9 @@ public class Driver {
 		int choice;
 		boolean proceed = true;
 		
+		
 		String promptMsg = "Make a selection:\n";
-		String errorMsg = "Invalid entry, enter and integer value in the range (1 - 6)\n";
+		String errorMsg  = "Invalid entry, enter and integer value in the range (1 - 6)\n";
 		
 		while(proceed) {
 			
@@ -87,6 +92,16 @@ public class Driver {
 					+ "4. Update Book Information\n"
 					+ "5. Delete Book\n"
 					+ "6. Back");
+			
+			choice = kb.readInteger(promptMsg, errorMsg, 1, 6);
+			
+			switch(choice) {
+			
+			case 1:
+				Book newBook = librarian.getNewBookDataFromUser();
+				dbManager.createNewBook(newBook);
+				break;
+			}
 		}
 		
 		

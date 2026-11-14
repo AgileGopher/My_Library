@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data_classes.Book;
-import data_classes.BookStatus;
-import data_classes.BookType;
 import data_classes.HistoricalPeriod;
+import enums.BookStatus;
+import enums.BookType;
 
 
 public class DatabaseManager {
