@@ -96,11 +96,11 @@ public class Driver {
 			choice = kb.readInteger(promptMsg, errorMsg, 1, 6);
 			
 			switch(choice) {
-			
-			case 1:
-				Book newBook = librarian.getNewBookDataFromUser();
-				dbManager.createNewBook(newBook);
-				break;
+				
+				case 1:
+					Book newBook = librarian.getNewBookDataFromUser();
+					dbManager.createNewBook(newBook);
+					break;
 			}
 		}
 		
