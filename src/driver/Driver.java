@@ -1,8 +1,10 @@
 package driver;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import data_classes.Book;
+import data_classes.HistoricalPeriod;
 import db_manager.DatabaseManager;
 import io_classes.Keyboard;
 import io_classes.Librarian;
@@ -41,7 +43,7 @@ public class Driver {
 					+ "\n-------- Home Menu ---------\n"
 					+ "1. CRUD Book Menu\n"
 					+ "2. CRUD historical Period Menu\n"
-					+ "3. Display full Library\n"
+					+ "3. Display Library\n"
 					+ "4. Quit\n");
 			
 			choice = kb.readInteger(promptMsg, errorMsg, 1, 4);
@@ -57,7 +59,8 @@ public class Driver {
 					break;
 					
 				case 3:
-					System.out.println("Working on it..");
+					Map<Book, HistoricalPeriod> library = dbManager.retrieveData();
+					dbManager.displayLibrary(library);
 					break;
 					
 				case 4:
@@ -88,12 +91,11 @@ public class Driver {
 			System.out.println("--------Driver CRUD Menu--------\n"
 					+ "1. Create Book\n"
 					+ "2. Read Book Information\n"
-					+ "3. Read Book Library\n"
-					+ "4. Update Book Information\n"
-					+ "5. Delete Book\n"
-					+ "6. Back");
+					+ "3. Update Book Information\n"
+					+ "4. Delete Book\n"
+					+ "5. Back");
 			
-			choice = kb.readInteger(promptMsg, errorMsg, 1, 6);
+			choice = kb.readInteger(promptMsg, errorMsg, 1, 5);
 			
 			switch(choice) {
 				
@@ -101,6 +103,9 @@ public class Driver {
 					Book newBook = librarian.getNewBookDataFromUser();
 					dbManager.createNewBook(newBook);
 					break;
+					
+				case 2:
+					
 			}
 		}
 		

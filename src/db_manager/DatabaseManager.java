@@ -7,7 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import data_classes.Book;
 import data_classes.HistoricalPeriod;
@@ -110,6 +113,25 @@ public class DatabaseManager {
 			}
 		}
 		return books;
+	}
+	
+	
+	
+	// method to retrieve full library data
+	public Map<Book, HistoricalPeriod> retrieveData() throws SQLException{
+		
+		List<Book> books = retrieveBooks();
+		List<HistoricalPeriod> hps = retrieveHistoricalPeriods();
+		Map<Book, HistoricalPeriod> data = new HashMap<>();
+		
+		for(Book book : books) {
+			for(HistoricalPeriod hp : hps) {
+				if(hp.getPeriodID() == book.getPeriodId()) {
+					data.put(book, hp);
+				}
+			}
+		}
+		return data;
 	}
 
 	
@@ -348,6 +370,70 @@ public class DatabaseManager {
 	                "No Period found with ID: " + periodId);
 	        }
 		}
+	}
+	
+	
+	
+	
+	// method to display full library data
+	public void displayLibrary(Map<Book, HistoricalPeriod> data) {
+		
+		if(data.isEmpty()) {
+			System.out.println("Library is currrently empty..");
+			return;
+		}
+		
+        List<Map.Entry<Book, HistoricalPeriod>> entries = new ArrayList<>(data.entrySet());
+		
+	    entries.sort(
+	        Comparator
+	            .comparingInt((Map.Entry<Book, HistoricalPeriod> e) ->
+	                e.getValue().getStart_year())
+	            .thenComparing(e -> e.getKey().getTitle(),
+	                String.CASE_INSENSITIVE_ORDER)
+	    );
+	   
+	   
+	    System.out.println("\n");
+	    System.out.println("==================================================");
+	    System.out.println("                    MY LIBRARY");
+	    System.out.println("==================================================");
+	    
+	    
+	    int currentPeriod = -1;
+	    
+	    
+	    for(Map.Entry<Book, HistoricalPeriod> entry : entries) {
+	    	 
+	    	Book book = entry.getKey();
+	    	HistoricalPeriod period = entry.getValue();
+	    	
+	    	if(period.getPeriodID() != currentPeriod) {
+	    		
+	            currentPeriod = period.getPeriodID();
+
+	            System.out.println("\n");
+	            System.out.println("==================================================");
+	            System.out.println("       " + period.getName().toUpperCase());
+	            System.out.println("==================================================");
+	            System.out.println();
+	    	}
+	    	
+	        System.out.println("Title:            " + book.getTitle());
+	        System.out.println("Author:           " + book.getAuthor());
+	        System.out.println("Type:             " + book.getBookType());
+	        System.out.println("Publication Year: " + book.getYearPublished());
+	        System.out.println("Status:           " + book.getStatus());
+	        System.out.println("Rating:           " +
+	                (book.getRating() == null ? "Not rated" : book.getRating() + "/10"));
+	        System.out.println("Notes:            " +
+	                (book.getNotes() == null ? "None" : book.getNotes()));
+
+	        System.out.println("--------------------------------------------------");
+	    }
+	    
+	    System.out.println("\nTotal books: " + data.size());
+	    System.out.println("==================================================\n\n");
 	}
 	
 

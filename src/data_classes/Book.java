@@ -24,7 +24,7 @@ public class Book {
 	private static final int MIN_ID_VALUE      = 1;
 	private static final int MAX_TITLE_LENGTH  = 100;
 	private static final int MAX_AUTHOR_LENGTH = 50;
-	private static final int MIN_RATING_VALUE  = 1;
+	private static final int MIN_RATING_VALUE  = 0;
 	private static final int MAX_RATING_VALUE  = 10;
 	private static final int MAX_NOTES_LENGTH  = 500;
 	
@@ -113,8 +113,11 @@ public class Book {
 	
 	
 	private static void validateNotes(String notes) {
+		if(notes == null) {
+			return;
+		}
 		if(notes.length() > MAX_NOTES_LENGTH) {
-			throw new IllegalArgumentException("Book Error, invalid notes: " + notes);
+			throw new IllegalArgumentException("Book Error, invalid note length: " + notes);
 		}
 	}
 
