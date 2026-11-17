@@ -35,7 +35,7 @@ public class Driver {
 		boolean proceed = true;
 		
 		String promptMsg = "Make a selection:\n";
-		String errorMsg = "Invalid entry, enter and integer value in the range (1 - 4)\n";
+		String errorMsg  = "Invalid entry, enter and integer value in the range (1 - 4)\n";
 		
 		while(proceed) {
 			
