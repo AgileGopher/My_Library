@@ -105,7 +105,13 @@ public class Driver {
 					break;
 					
 				case 2:
+					int inputId;
+					String idPromptMsg = "enter book id: \n";
+					String idErrorMsg  = "error, invalid id..\n";
 					
+					inputId = kb.readInteger(idPromptMsg, idErrorMsg);
+					System.out.println(dbManager.retrieveBook(inputId));
+					break;
 			}
 		}
 		
