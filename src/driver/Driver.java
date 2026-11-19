@@ -112,6 +112,32 @@ public class Driver {
 					inputId = kb.readInteger(idPromptMsg, idErrorMsg);
 					System.out.println(dbManager.retrieveBook(inputId));
 					break;
+					
+				case 3:
+					int bookId;
+					String author;
+					String title;
+					String type;
+					Integer yearPublished;
+					int periodId;
+					String status;
+					Integer rating;
+					String notes;
+					
+					bookId = kb.readInteger("enter bookId: \n", "invalid id, try again.. \n");
+					
+					for(Book book : dbManager.retrieveBooks()) {
+						if(book.getBookId() == bookId) {
+							author = kb.readString("enter new author: ", "invalid author..");
+							title = kb.readString("enter new title: ", "invalid title..");
+							type = kb.readString("enter new type: ", "invalid type..");
+							yearPublished = kb.readInteger("enter new year published: ", "invalid year..");
+							periodId = kb.readInteger("enter new period id: ", "invlalid period id..");
+							status = kb.readString("enter nre status", "invalid status..                                                                                                                                                                                          ")
+						}
+					}
+				
+					
 			}
 		}
 		
