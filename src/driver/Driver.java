@@ -133,15 +133,12 @@ public class Driver {
 							type = kb.readString("enter new type: ", "invalid type..");
 							yearPublished = kb.readInteger("enter new year published: ", "invalid year..");
 							periodId = kb.readInteger("enter new period id: ", "invlalid period id..");
-							status = kb.readString("enter nre status", "invalid status..                                                                                                                                                                                          ")
+							status = kb.readString("enter nre status", "invalid status..");                                                                                                                                                                                         
 						}
 					}
-				
 					
 			}
 		}
-		
-		
 	}
 	
 	
