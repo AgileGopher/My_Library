@@ -6,6 +6,8 @@ import java.util.Map;
 import data_classes.Book;
 import data_classes.HistoricalPeriod;
 import db_manager.DatabaseManager;
+import enums.BookStatus;
+import enums.BookType;
 import io_classes.Keyboard;
 import io_classes.Librarian;
 
@@ -128,14 +130,31 @@ public class Driver {
 					
 					for(Book book : dbManager.retrieveBooks()) {
 						if(book.getBookId() == bookId) {
-							author = kb.readString("enter new author: ", "invalid author..");
-							title = kb.readString("enter new title: ", "invalid title..");
-							type = kb.readString("enter new type: ", "invalid type..");
-							yearPublished = kb.readInteger("enter new year published: ", "invalid year..");
-							periodId = kb.readInteger("enter new period id: ", "invlalid period id..");
-							status = kb.readString("enter nre status", "invalid status..");                                                                                                                                                                                         
+							author = kb.readString("update author: ", "invalid author..");
+							book.setAuthor(author);
+							title = kb.readString("update title: ", "invalid title..");
+							book.setTitle(title);
+							type = kb.readString("update type: ", "invalid type..");
+							book.setBookType(BookType.valueOf(type.trim().toUpperCase()));
+							yearPublished = kb.readInteger("update year published: ", "invalid year..");
+							book.setYearPublished(yearPublished);
+							periodId = kb.readInteger("update period id: ", "invlalid period id..");
+							book.setPeriodId(periodId);
+							status = kb.readString("update status", "invalid status..");
+							book.setStatus(BookStatus.valueOf(status.trim().toUpperCase()));
+							rating = kb.readInteger("update rating", "invalid rating");
+							book.setRating(rating);
+							notes = kb.readString("update notes", "invalid notes..");
+							book.setNotes(notes);
+							
+							dbManager.updateBook(bookId, book);
+							System.out.println("book updated: " + bookId);
 						}
 					}
+					break;
+					
+				case 4:
+					
 					
 			}
 		}
