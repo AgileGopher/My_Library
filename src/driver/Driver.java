@@ -84,7 +84,6 @@ public class Driver {
 		int choice;
 		boolean proceed = true;
 		
-		
 		String promptMsg = "Make a selection:\n";
 		String errorMsg  = "Invalid entry, enter and integer value in the range (1 - 6)\n";
 		
@@ -108,10 +107,7 @@ public class Driver {
 					
 				case 2:
 					int inputId;
-					String idPromptMsg = "enter book id: \n";
-					String idErrorMsg  = "error, invalid id..\n";
-					
-					inputId = kb.readInteger(idPromptMsg, idErrorMsg);
+					inputId = kb.readInteger("enter book id: \n", "error, invalid id..\n");
 					System.out.println(dbManager.retrieveBook(inputId));
 					break;
 					
